@@ -162,45 +162,6 @@ You can inspect the raw database using **DB Browser for SQLite**:
 
 ---
 
-## 🌐 API Endpoints
-
-| Method | Route       | Description                            |
-|--------|-------------|----------------------------------------|
-| GET    | `/`         | Serves the student registration page  |
-| POST   | `/register` | Accepts JSON, saves to DB, returns JSON response |
-| GET    | `/admin`    | Displays all registrations in a table |
-
-### POST `/register` — Request Format
-
-```json
-{
-  "full_name": "Arjun Sharma",
-  "student_id": "CS2024001",
-  "course": "B.Tech Computer Science",
-  "event_name": "Tech Fest 2025"
-}
-```
-
-### POST `/register` — Response Format
-
-**Success:**
-```json
-{
-  "success": true,
-  "message": "Successfully registered for Tech Fest 2025!"
-}
-```
-
-**Error:**
-```json
-{
-  "success": false,
-  "message": "All fields are required."
-}
-```
-
----
-
 ## 🎪 Available Events
 
 The following events are available in the registration form:
@@ -240,8 +201,3 @@ The following events are available in the registration form:
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
-
-## 👤 Author
-
-Made with ❤️ for a college project.  
-Feel free to fork, improve, and share!
