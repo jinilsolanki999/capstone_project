@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>College Event Registration</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>🎓 College Event Registration</h1>
+        <p>Register for exciting campus events below</p>
+      </div>
+
+      <div id="success-banner" class="success-banner hidden">
+        <span id="success-text"></span>
+      </div>
+      <div id="error-banner" class="error-banner hidden">
+        <span id="error-text"></span>
+      </div>
+
+      <form id="reg-form">
+        <div class="form-group">
+          <label for="full_name">Full Name</label>
+          <input type="text" id="full_name" placeholder="e.g. Arjun Sharma" required />
+        </div>
+        <div class="form-group">
+          <label for="student_id">Student ID</label>
+          <input type="text" id="student_id" placeholder="e.g. CS2024001" required />
+        </div>
+        <div class="form-group">
+          <label for="course">Course</label>
+          <input type="text" id="course" placeholder="e.g. B.Tech Computer Science" required />
+        </div>
+        <div class="form-group">
+          <label for="event_name">Event Name</label>
+          <select id="event_name" required>
+            <option value="">-- Select an Event --</option>
+            <option value="Tech Fest 2025">Tech Fest 2025</option>
+            <option value="Cultural Night">Cultural Night</option>
+            <option value="Web Development Workshop">Web Development Workshop</option>
+            <option value="AI & ML Workshop">AI & ML Workshop</option>
+            <option value="Sports Day">Sports Day</option>
+          </select>
+        </div>
+        <button type="submit" id="submit-btn">Register Now</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('reg-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.textContent = 'Registering...';
+      btn.disabled = true;
+
+      const payload = {
+        full_name: document.getElementById('full_name').value,
+        student_id: document.getElementById('student_id').value,
+        course: document.getElementById('course').value,
+        event_name: document.getElementById('event_name').value,
+      };
+
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('success-text').textContent = '✅ ' + data.message;
+          document.getElementById('success-banner').classList.remove('hidden');
+          document.getElementById('error-banner').classList.add('hidden');
+          document.getElementById('reg-form').reset();
+        } else {
+          document.getElementById('error-text').textContent = '❌ ' + data.message;
+          document.getElementById('error-banner').classList.remove('hidden');
+          document.getElementById('success-banner').classList.add('hidden');
+        }
+      } catch (err) {
+        document.getElementById('error-text').textContent = '❌ Network error. Is the server running?';
+        document.getElementById('error-banner').classList.remove('hidden');
+      }
+
+      btn.textContent = 'Register Now';
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>
